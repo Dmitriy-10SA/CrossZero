@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".presentation.MainActivity">
+    tools:context=".presentation.ui.MainActivity">
 
     <ImageView
         android:id="@+id/imageViewFieldForGame"

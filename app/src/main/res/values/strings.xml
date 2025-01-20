@@ -8,4 +8,6 @@
     <string name="tic_score0">Крестики: 0</string>
     <string name="tac_score0">Нолики: 0</string>
     <string name="cell_of_field">Ячейка поля</string>
+    <string name="tic_score">Крестики: </string>
+    <string name="tac_score">Нолики: </string>
 </resources>

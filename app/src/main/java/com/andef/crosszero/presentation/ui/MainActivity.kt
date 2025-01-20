@@ -1,4 +1,4 @@
-package com.andef.crosszero.presentation
+package com.andef.crosszero.presentation.ui
 
 import android.os.Bundle
 import android.widget.Button
