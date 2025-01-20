@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.andef.crosszero"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.andef.crosszero"
