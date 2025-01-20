@@ -1,7 +1,9 @@
 package com.andef.crosszero.presentation.ui
 
+import android.app.Application
+import android.content.Context
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.andef.crosszero.domain.entities.CellBackgroundColor
 import com.andef.crosszero.domain.entities.CellSign
 import com.andef.crosszero.domain.entities.Player
@@ -12,11 +14,42 @@ import com.andef.crosszero.domain.usecases.ClearField
 import com.andef.crosszero.domain.usecases.MakePutCell
 import com.andef.crosszero.presentation.state.GameState
 
-class GameViewModel : ViewModel() {
+class GameViewModel(application: Application): AndroidViewModel(application) {
+    private val settings = getApplication<Application>()
+        .getSharedPreferences(PREFS_FILE_SCORES, Context.MODE_PRIVATE)
+
+    val crossScores = MutableLiveData<Int>()
+    val zeroScores = MutableLiveData<Int>()
+
+    val cell11 = MutableLiveData<CellSign>()
+    val cell12 = MutableLiveData<CellSign>()
+    val cell13 = MutableLiveData<CellSign>()
+    val cell21 = MutableLiveData<CellSign>()
+    val cell22 = MutableLiveData<CellSign>()
+    val cell23 = MutableLiveData<CellSign>()
+    val cell31 = MutableLiveData<CellSign>()
+    val cell32 = MutableLiveData<CellSign>()
+    val cell33 = MutableLiveData<CellSign>()
+
+    val backgroundCell11 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell12 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell13 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell21 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell22 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell23 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell31 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell32 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell33 = MutableLiveData<CellBackgroundColor>()
+
+    val fieldAnimation = MutableLiveData<Boolean>()
+    val startButtonAnimation = MutableLiveData<Boolean>()
+
     private val gameState = getGameState()
     private fun getGameState(): GameState {
-        val crossPlayer = Player(PlayerSign.CROSS, 0)
-        val zeroPlayer = Player(PlayerSign.ZERO, 0)
+        val crossPlayer = Player(PlayerSign.CROSS, settings.getInt(PREF_CROSS_SCORE, 0))
+        crossScores.value = crossPlayer.cntWins
+        val zeroPlayer = Player(PlayerSign.ZERO, settings.getInt(PREF_ZERO_SCORE, 0))
+        zeroScores.value = zeroPlayer.cntWins
         return GameState(crossPlayer, zeroPlayer, crossPlayer, false)
     }
 
@@ -155,36 +188,17 @@ class GameViewModel : ViewModel() {
         }
     }
 
-    val crossScores = MutableLiveData<Int>()
-    val zeroScores = MutableLiveData<Int>()
-
-    val cell11 = MutableLiveData<CellSign>()
-    val cell12 = MutableLiveData<CellSign>()
-    val cell13 = MutableLiveData<CellSign>()
-    val cell21 = MutableLiveData<CellSign>()
-    val cell22 = MutableLiveData<CellSign>()
-    val cell23 = MutableLiveData<CellSign>()
-    val cell31 = MutableLiveData<CellSign>()
-    val cell32 = MutableLiveData<CellSign>()
-    val cell33 = MutableLiveData<CellSign>()
-
-    val backgroundCell11 = MutableLiveData<CellBackgroundColor>()
-    val backgroundCell12 = MutableLiveData<CellBackgroundColor>()
-    val backgroundCell13 = MutableLiveData<CellBackgroundColor>()
-    val backgroundCell21 = MutableLiveData<CellBackgroundColor>()
-    val backgroundCell22 = MutableLiveData<CellBackgroundColor>()
-    val backgroundCell23 = MutableLiveData<CellBackgroundColor>()
-    val backgroundCell31 = MutableLiveData<CellBackgroundColor>()
-    val backgroundCell32 = MutableLiveData<CellBackgroundColor>()
-    val backgroundCell33 = MutableLiveData<CellBackgroundColor>()
-
-    val fieldAnimation = MutableLiveData<Boolean>()
-    val startButtonAnimation = MutableLiveData<Boolean>()
-
     private fun endGame() {
         gameState.isGameOver = true
         fieldAnimation.value = true
         startButtonAnimation.value = true
+    }
+
+    fun exitGame() {
+        val prefEditor = settings.edit()
+        prefEditor.putInt(PREF_CROSS_SCORE, gameState.crossPlayer.cntWins)
+        prefEditor.putInt(PREF_ZERO_SCORE, gameState.zeroPlayer.cntWins)
+        prefEditor.apply()
     }
 
     fun putCell(row: Int, col: Int) {
@@ -217,5 +231,15 @@ class GameViewModel : ViewModel() {
         gameState.zeroPlayer.cntWins = 0
         crossScores.value = gameState.crossPlayer.cntWins
         zeroScores.value = gameState.zeroPlayer.cntWins
+    }
+
+    init {
+        newGame()
+    }
+
+    companion object {
+        private const val PREFS_FILE_SCORES = "SCORES"
+        private const val PREF_CROSS_SCORE = "CROSS_SCORE"
+        private const val PREF_ZERO_SCORE = "ZERO_SCORE"
     }
 }
