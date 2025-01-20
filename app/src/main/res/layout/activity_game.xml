@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@drawable/app_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.ui.GameActivity">
+
+    <TextView
+        android:id="@+id/textViewTicScores"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
+        android:gravity="center"
+        android:padding="12dp"
+        android:background="@drawable/text_view_back"
+        android:text="@string/tic_score0"
+        android:textColor="@color/black"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayoutWithGameField"
+        app:layout_constraintEnd_toStartOf="@+id/textViewTacScores"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewTacScores"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="@string/tac_score0"
+        android:textColor="@color/black"
+        android:textSize="26sp"
+        android:background="@drawable/text_view_back"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textViewTicScores"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/constraintLayoutWithGameField"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutWithGameField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTacScores"
+        app:layout_constraintBottom_toTopOf="@id/buttonStartNewGame">
+
+        <ImageView
+            android:id="@+id/imageViewGameField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/image_of_field_for_game"
+            android:maxWidth="350dp"
+            android:maxHeight="350dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/game_field" />
+
+        <ImageView
+            android:id="@+id/imageViewCell11"
+            android:contentDescription="@string/cell_of_field"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/white_top_left"
+            app:layout_constraintBottom_toTopOf="@id/imageViewCell21"
+            app:layout_constraintEnd_toStartOf="@id/imageViewCell12"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageViewCell12"
+            android:contentDescription="@string/cell_of_field"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="4dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/imageViewCell22"
+            app:layout_constraintEnd_toStartOf="@id/imageViewCell13"
+            app:layout_constraintStart_toEndOf="@id/imageViewCell11"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageViewCell13"
+            android:contentDescription="@string/cell_of_field"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/white_top_right"
+            app:layout_constraintBottom_toTopOf="@id/imageViewCell23"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageViewCell12"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageViewCell21"
+            android:contentDescription="@string/cell_of_field"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/imageViewCell31"
+            app:layout_constraintEnd_toStartOf="@id/imageViewCell22"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageViewCell11" />
+
+        <ImageView
+            android:id="@+id/imageViewCell22"
+            android:contentDescription="@string/cell_of_field"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/imageViewCell32"
+            app:layout_constraintEnd_toStartOf="@id/imageViewCell23"
+            app:layout_constraintStart_toEndOf="@id/imageViewCell21"
+            app:layout_constraintTop_toBottomOf="@id/imageViewCell12" />
+
+        <ImageView
+            android:id="@+id/imageViewCell23"
+            android:contentDescription="@string/cell_of_field"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/imageViewCell33"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageViewCell22"
+            app:layout_constraintTop_toBottomOf="@id/imageViewCell13" />
+
+        <ImageView
+            android:id="@+id/imageViewCell31"
+            android:contentDescription="@string/cell_of_field"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/white_bottom_left"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imageViewCell32"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageViewCell21" />
+
+        <ImageView
+            android:id="@+id/imageViewCell32"
+            android:contentDescription="@string/cell_of_field"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imageViewCell33"
+            app:layout_constraintStart_toEndOf="@id/imageViewCell31"
+            app:layout_constraintTop_toBottomOf="@id/imageViewCell22" />
+
+        <ImageView
+            android:id="@+id/imageViewCell33"
+            android:contentDescription="@string/cell_of_field"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/white_bottom_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageViewCell32"
+            app:layout_constraintTop_toBottomOf="@id/imageViewCell23" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/buttonStartNewGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/buttons_color"
+        android:padding="8dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:text="@string/new_game"
+        app:cornerRadius="16dp"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonDeleteScores"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutWithGameField" />
+
+    <Button
+        android:id="@+id/buttonDeleteScores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="29dp"
+        android:backgroundTint="@color/buttons_color"
+        android:padding="8dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:text="@string/nullable_score"
+        app:cornerRadius="16dp"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonExit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonStartNewGame" />
+
+    <Button
+        android:id="@+id/buttonExit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/buttons_color"
+        android:padding="8dp"
+        android:paddingStart="32dp"
+        app:cornerRadius="16dp"
+        android:paddingEnd="32dp"
+        android:text="@string/exit_game"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonDeleteScores" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
