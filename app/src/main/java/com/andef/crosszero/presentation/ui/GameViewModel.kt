@@ -2,9 +2,11 @@ package com.andef.crosszero.presentation.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.andef.crosszero.domain.entities.CellBackgroundColor
 import com.andef.crosszero.domain.entities.CellSign
 import com.andef.crosszero.domain.entities.Player
 import com.andef.crosszero.domain.entities.PlayerSign
+import com.andef.crosszero.domain.usecases.CheckEmptyOnes
 import com.andef.crosszero.domain.usecases.CheckWinner
 import com.andef.crosszero.domain.usecases.ClearField
 import com.andef.crosszero.domain.usecases.MakePutCell
@@ -59,16 +61,89 @@ class GameViewModel : ViewModel() {
         }
     }
 
-    private fun notifyAllCells() {
-        cell11.value = CellSign.EMPTY
-        cell12.value = CellSign.EMPTY
-        cell13.value = CellSign.EMPTY
-        cell21.value = CellSign.EMPTY
-        cell22.value = CellSign.EMPTY
-        cell23.value = CellSign.EMPTY
-        cell31.value = CellSign.EMPTY
-        cell32.value = CellSign.EMPTY
-        cell33.value = CellSign.EMPTY
+    private fun notifyWinCells(winCells: List<Int>) {
+        when (winCells) {
+            listOf(0, 0, 0, 1, 0, 2) -> { //1
+                backgroundCell11.value = CellBackgroundColor.GREEN
+                backgroundCell12.value = CellBackgroundColor.GREEN
+                backgroundCell13.value = CellBackgroundColor.GREEN
+            }
+
+            listOf(0, 0, 1, 0, 2, 0) -> { //2
+                backgroundCell11.value = CellBackgroundColor.GREEN
+                backgroundCell21.value = CellBackgroundColor.GREEN
+                backgroundCell31.value = CellBackgroundColor.GREEN
+            }
+
+            listOf(0, 0, 1, 1, 2, 2) -> { //3
+                backgroundCell11.value = CellBackgroundColor.GREEN
+                backgroundCell22.value = CellBackgroundColor.GREEN
+                backgroundCell33.value = CellBackgroundColor.GREEN
+            }
+
+            listOf(0, 1, 1, 1, 2, 1) -> { //4
+                backgroundCell12.value = CellBackgroundColor.GREEN
+                backgroundCell22.value = CellBackgroundColor.GREEN
+                backgroundCell32.value = CellBackgroundColor.GREEN
+            }
+
+            listOf(0, 2, 1, 2, 2, 2) -> { //5
+                backgroundCell13.value = CellBackgroundColor.GREEN
+                backgroundCell23.value = CellBackgroundColor.GREEN
+                backgroundCell33.value = CellBackgroundColor.GREEN
+            }
+
+            listOf(2, 0, 1, 1, 0, 2) -> { //6
+                backgroundCell31.value = CellBackgroundColor.GREEN
+                backgroundCell22.value = CellBackgroundColor.GREEN
+                backgroundCell13.value = CellBackgroundColor.GREEN
+            }
+
+            listOf(1, 0, 1, 1, 1, 2) -> { //7
+                backgroundCell21.value = CellBackgroundColor.GREEN
+                backgroundCell22.value = CellBackgroundColor.GREEN
+                backgroundCell23.value = CellBackgroundColor.GREEN
+            }
+
+            listOf(2, 0, 2, 1, 2, 2) -> { //8
+                backgroundCell31.value = CellBackgroundColor.GREEN
+                backgroundCell32.value = CellBackgroundColor.GREEN
+                backgroundCell33.value = CellBackgroundColor.GREEN
+            }
+        }
+    }
+
+    private fun notifyAllCells(newGame: Boolean) {
+        if (newGame) {
+            cell11.value = CellSign.EMPTY
+            cell12.value = CellSign.EMPTY
+            cell13.value = CellSign.EMPTY
+            cell21.value = CellSign.EMPTY
+            cell22.value = CellSign.EMPTY
+            cell23.value = CellSign.EMPTY
+            cell31.value = CellSign.EMPTY
+            cell32.value = CellSign.EMPTY
+            cell33.value = CellSign.EMPTY
+            backgroundCell11.value = CellBackgroundColor.WHITE
+            backgroundCell12.value = CellBackgroundColor.WHITE
+            backgroundCell13.value = CellBackgroundColor.WHITE
+            backgroundCell21.value = CellBackgroundColor.WHITE
+            backgroundCell22.value = CellBackgroundColor.WHITE
+            backgroundCell23.value = CellBackgroundColor.WHITE
+            backgroundCell31.value = CellBackgroundColor.WHITE
+            backgroundCell32.value = CellBackgroundColor.WHITE
+            backgroundCell33.value = CellBackgroundColor.WHITE
+        } else {
+            backgroundCell11.value = CellBackgroundColor.RED
+            backgroundCell12.value = CellBackgroundColor.RED
+            backgroundCell13.value = CellBackgroundColor.RED
+            backgroundCell21.value = CellBackgroundColor.RED
+            backgroundCell22.value = CellBackgroundColor.RED
+            backgroundCell23.value = CellBackgroundColor.RED
+            backgroundCell31.value = CellBackgroundColor.RED
+            backgroundCell32.value = CellBackgroundColor.RED
+            backgroundCell33.value = CellBackgroundColor.RED
+        }
     }
 
     private fun addScores() {
@@ -93,23 +168,37 @@ class GameViewModel : ViewModel() {
     val cell32 = MutableLiveData<CellSign>()
     val cell33 = MutableLiveData<CellSign>()
 
+    val backgroundCell11 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell12 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell13 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell21 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell22 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell23 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell31 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell32 = MutableLiveData<CellBackgroundColor>()
+    val backgroundCell33 = MutableLiveData<CellBackgroundColor>()
+
     fun putCell(row: Int, col: Int) {
         if (MakePutCell.execute(row, col, gameState.currentPlayer.playerSign) &&
             !gameState.isGameOver
         ) {
+            notifyCell(row, col, getCellSignByPlayerSign(gameState.currentPlayer.playerSign))
             val winCells = checkWinner()
             if (winCells.isNotEmpty()) {
+                notifyWinCells(winCells)
                 addScores()
                 gameState.isGameOver = true
+            } else if (!CheckEmptyOnes.execute()) {
+                notifyAllCells(false)
+                gameState.isGameOver = true
             }
-            notifyCell(row, col, getCellSignByPlayerSign(gameState.currentPlayer.playerSign))
             changeCurrentPlayer()
         }
     }
 
     fun newGame() {
         ClearField.execute()
-        notifyAllCells()
+        notifyAllCells(true)
         gameState.currentPlayer = gameState.crossPlayer
         gameState.isGameOver = false
     }
@@ -117,7 +206,7 @@ class GameViewModel : ViewModel() {
     fun clearScores() {
         gameState.crossPlayer.cntWins = 0
         gameState.zeroPlayer.cntWins = 0
-        crossScores.value = 0
-        zeroScores.value = 0
+        crossScores.value = gameState.crossPlayer.cntWins
+        zeroScores.value = gameState.zeroPlayer.cntWins
     }
 }

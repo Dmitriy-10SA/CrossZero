@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.andef.crosszero.R
+import com.andef.crosszero.domain.entities.CellBackgroundColor
 import com.andef.crosszero.domain.entities.CellSign
 
 class GameActivity : AppCompatActivity() {
@@ -61,6 +62,49 @@ class GameActivity : AppCompatActivity() {
         return null
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun getBackgroundDrawableForCell(
+        cellBackgroundColor: CellBackgroundColor,
+        leftTopCorner: Boolean = false,
+        leftBottomCorner: Boolean = false,
+        rightTopCorner: Boolean = false,
+        rightBottomCorner: Boolean = false
+    ): Drawable? {
+        if (cellBackgroundColor.title == CellBackgroundColor.WHITE.title) {
+            if (leftBottomCorner) {
+                return getDrawable(R.drawable.white_bottom_left)
+            } else if (leftTopCorner) {
+                return getDrawable(R.drawable.white_top_left)
+            } else if (rightTopCorner) {
+                return getDrawable(R.drawable.white_top_right)
+            } else if (rightBottomCorner) {
+                return getDrawable(R.drawable.white_bottom_right)
+            }
+            return getDrawable(R.color.white)
+        } else if (cellBackgroundColor.title == CellBackgroundColor.RED.title) {
+            if (leftBottomCorner) {
+                return getDrawable(R.drawable.red_bottom_left)
+            } else if (leftTopCorner) {
+                return getDrawable(R.drawable.red_top_left)
+            } else if (rightTopCorner) {
+                return getDrawable(R.drawable.red_top_right)
+            } else if (rightBottomCorner) {
+                return getDrawable(R.drawable.red_bottom_right)
+            }
+            return getDrawable(android.R.color.holo_red_light)
+        }
+        if (leftBottomCorner) {
+            return getDrawable(R.drawable.green_bottom_left)
+        } else if (leftTopCorner) {
+            return getDrawable(R.drawable.green_top_left)
+        } else if (rightTopCorner) {
+            return getDrawable(R.drawable.green_top_right)
+        } else if (rightBottomCorner) {
+            return getDrawable(R.drawable.green_bottom_right)
+        }
+        return getDrawable(android.R.color.holo_green_light)
+    }
+
     @SuppressLint("SetTextI18n")
     private fun initViewModel() {
         viewModel = ViewModelProvider(this)[GameViewModel::class.java]
@@ -97,6 +141,33 @@ class GameActivity : AppCompatActivity() {
         }
         viewModel.cell33.observe(this) {
             imageViewCell33.foreground = getDrawableForSign(it)
+        }
+        viewModel.backgroundCell11.observe(this) {
+            imageViewCell11.background = getBackgroundDrawableForCell(it, leftTopCorner = true)
+        }
+        viewModel.backgroundCell12.observe(this) {
+            imageViewCell12.background = getBackgroundDrawableForCell(it)
+        }
+        viewModel.backgroundCell13.observe(this) {
+            imageViewCell13.background = getBackgroundDrawableForCell(it, rightTopCorner = true)
+        }
+        viewModel.backgroundCell21.observe(this) {
+            imageViewCell21.background = getBackgroundDrawableForCell(it)
+        }
+        viewModel.backgroundCell22.observe(this) {
+            imageViewCell22.background = getBackgroundDrawableForCell(it)
+        }
+        viewModel.backgroundCell23.observe(this) {
+            imageViewCell23.background = getBackgroundDrawableForCell(it)
+        }
+        viewModel.backgroundCell31.observe(this) {
+            imageViewCell31.background = getBackgroundDrawableForCell(it, leftBottomCorner = true)
+        }
+        viewModel.backgroundCell32.observe(this) {
+            imageViewCell32.background = getBackgroundDrawableForCell(it)
+        }
+        viewModel.backgroundCell33.observe(this) {
+            imageViewCell33.background = getBackgroundDrawableForCell(it, rightBottomCorner = true)
         }
     }
 
