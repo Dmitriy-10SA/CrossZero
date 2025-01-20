@@ -1,0 +1,3 @@
+Tic Tac Toe game for android (Игра крестики нолики для андроид).
+
+The link to download the app (cсылка на скачивание приложения): later...
