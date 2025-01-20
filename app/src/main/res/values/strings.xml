@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Крестики нолики</string>
+    <string name="app_name">Крестики-Нолики</string>
     <string name="image_of_field_for_game">Поле для игры</string>
     <string name="start_game">Начать игру</string>
     <string name="exit_game">Выход из игры</string>
