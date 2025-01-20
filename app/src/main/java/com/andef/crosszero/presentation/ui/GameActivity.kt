@@ -268,6 +268,11 @@ class GameActivity : AppCompatActivity() {
         return AnimationUtils.loadAnimation(this, R.anim.touch_button_anim)
     }
 
+    override fun onStop() {
+        viewModel.exitGame()
+        super.onStop()
+    }
+
     companion object {
         fun newIntent(context: Context): Intent {
             return Intent(context, GameActivity::class.java)
