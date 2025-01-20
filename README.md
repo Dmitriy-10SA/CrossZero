@@ -6,4 +6,4 @@ Tic Tac Toe game for android (Игра крестики нолики для ан
 Stack (стек): Kotlin, MVVM, Clean Architecture, SharedPreferences.
 
 
-The link to download the app (Cсылка на скачивание приложения): later...
+The link to download the app (Cсылка на скачивание приложения): https://www.rustore.ru/catalog/app/com.andef.crosszero
