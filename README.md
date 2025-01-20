@@ -1,7 +1,7 @@
-![image](https://github.com/user-attachments/assets/df30c26a-fe04-4169-99be-eb5a8c897583)
+<img src="https://github.com/user-attachments/assets/df30c26a-fe04-4169-99be-eb5a8c897583" width="300" />
 
-# **Tic Tac Toe game for android**  
-*Игра крестики нолики для андроид*
+# **Tic Tac Toe game for android.**  
+*Игра крестики нолики для андроид.*
 
 ---
 
@@ -13,5 +13,8 @@
 
 ---
 
-# **The link to download the app (Cсылка на скачивание приложения):**
+# **The link to download the app:**
+*Cсылка на скачивание приложения:*
+
+
 [**Скачать приложение**](https://www.rustore.ru/catalog/app/com.andef.crosszero)
