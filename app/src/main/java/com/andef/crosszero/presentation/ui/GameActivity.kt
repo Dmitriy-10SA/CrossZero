@@ -5,11 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -31,6 +34,8 @@ class GameActivity : AppCompatActivity() {
     private lateinit var imageViewCell32: ImageView
     private lateinit var imageViewCell33: ImageView
     private lateinit var imageViewGameField: ImageView
+
+    private lateinit var constraintLayoutWithGameField: ConstraintLayout
 
     private lateinit var buttonStartNewGame: Button
     private lateinit var buttonDeleteScores: Button
@@ -169,6 +174,22 @@ class GameActivity : AppCompatActivity() {
         viewModel.backgroundCell33.observe(this) {
             imageViewCell33.background = getBackgroundDrawableForCell(it, rightBottomCorner = true)
         }
+        viewModel.fieldAnimation.observe(this) {
+            shakeFieldAnim()
+        }
+        viewModel.startButtonAnimation.observe(this) {
+            shakeNewGameButtonAnim()
+        }
+    }
+
+    private fun shakeFieldAnim() {
+        val animation = AnimationUtils.loadAnimation(this, R.anim.shake_field_anim)
+        constraintLayoutWithGameField.startAnimation(animation)
+    }
+
+    private fun shakeNewGameButtonAnim() {
+        val animation = AnimationUtils.loadAnimation(this, R.anim.shake_anim_new_game_button)
+        buttonStartNewGame.startAnimation(animation)
     }
 
     private fun initViews() {
@@ -221,22 +242,30 @@ class GameActivity : AppCompatActivity() {
             }
         }
         imageViewGameField = findViewById(R.id.imageViewGameField)
+        constraintLayoutWithGameField = findViewById(R.id.constraintLayoutWithGameField)
 
         buttonStartNewGame = findViewById<Button?>(R.id.buttonStartNewGame).apply {
             setOnClickListener {
                 viewModel.newGame()
+                this.startAnimation(touchButtonAnim())
             }
         }
         buttonDeleteScores = findViewById<Button?>(R.id.buttonDeleteScores).apply {
             setOnClickListener {
                 viewModel.clearScores()
+                this.startAnimation(touchButtonAnim())
             }
         }
         buttonExit = findViewById<Button?>(R.id.buttonExit).apply {
             setOnClickListener {
+                this.startAnimation(touchButtonAnim())
                 finish()
             }
         }
+    }
+
+    private fun touchButtonAnim(): Animation? {
+        return AnimationUtils.loadAnimation(this, R.anim.touch_button_anim)
     }
 
     companion object {

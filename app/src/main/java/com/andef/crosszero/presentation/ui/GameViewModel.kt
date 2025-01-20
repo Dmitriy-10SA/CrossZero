@@ -178,6 +178,15 @@ class GameViewModel : ViewModel() {
     val backgroundCell32 = MutableLiveData<CellBackgroundColor>()
     val backgroundCell33 = MutableLiveData<CellBackgroundColor>()
 
+    val fieldAnimation = MutableLiveData<Boolean>()
+    val startButtonAnimation = MutableLiveData<Boolean>()
+
+    private fun endGame() {
+        gameState.isGameOver = true
+        fieldAnimation.value = true
+        startButtonAnimation.value = true
+    }
+
     fun putCell(row: Int, col: Int) {
         if (MakePutCell.execute(row, col, gameState.currentPlayer.playerSign) &&
             !gameState.isGameOver
@@ -187,10 +196,10 @@ class GameViewModel : ViewModel() {
             if (winCells.isNotEmpty()) {
                 notifyWinCells(winCells)
                 addScores()
-                gameState.isGameOver = true
+                endGame()
             } else if (!CheckEmptyOnes.execute()) {
                 notifyAllCells(false)
-                gameState.isGameOver = true
+                endGame()
             }
             changeCurrentPlayer()
         }

@@ -1,6 +1,8 @@
 package com.andef.crosszero.presentation.ui
 
 import android.os.Bundle
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -24,13 +26,22 @@ class MainActivity : AppCompatActivity() {
         buttonStartGame = findViewById<Button?>(R.id.buttonStartGame).apply {
             setOnClickListener {
                 goToGameScreen()
-                finish()
             }
         }
     }
 
     private fun goToGameScreen() {
         val intent = GameActivity.newIntent(this)
-        startActivity(intent)
+        val animation = AnimationUtils.loadAnimation(this, R.anim.start_game_buttom_anim)
+        animation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {}
+            override fun onAnimationRepeat(animation: Animation?) {}
+
+            override fun onAnimationEnd(animation: Animation?) {
+                startActivity(intent)
+                finish()
+            }
+        })
+        buttonStartGame.startAnimation(animation)
     }
 }
