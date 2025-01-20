@@ -2,11 +2,10 @@ package com.andef.crosszero.data.repository
 
 import com.andef.crosszero.data.datasource.FieldData
 import com.andef.crosszero.domain.entities.CellSign
-import com.andef.crosszero.domain.entities.Player
 import com.andef.crosszero.domain.entities.PlayerSign
 import com.andef.crosszero.domain.repository.GameRepository
 
-object GameRepositoryImpl: GameRepository {
+object GameRepositoryImpl : GameRepository {
     private var field = FieldData.newClearField.cells
 
     private fun getCellSignByPlayerSign(currentPlayerSign: PlayerSign): CellSign {
@@ -38,27 +37,38 @@ object GameRepositoryImpl: GameRepository {
     }
 
     override fun checkWinner(): List<Int> {
-        if (isWinnerCombination(0,0,0,1,0,2)) { //1
-            return listOf(0,0,0,1,0,2)
-        } else if (isWinnerCombination(0,0,1,0,2,0)) { //2
-            return listOf(0,0,1,0,2,0)
-        } else if (isWinnerCombination(0,0,1,1,2,2)) { //3
-            return listOf(0,0,1,1,2,2)
-        } else if (isWinnerCombination(0,1,1,1,2,1)) { //4
-            return listOf(0,1,1,1,2,1)
-        } else if (isWinnerCombination(0,2,1,2,2,2)) { //5
-            return listOf(0,2,1,2,2,2)
-        } else if (isWinnerCombination(2,0,1,1,0,2)) { //6
-            return listOf(2,0,1,1,0,2)
-        } else if (isWinnerCombination(1,0,1,1,1,2)) { //7
-            return listOf(1,0,1,1,1,2)
-        } else if (isWinnerCombination(2,0,2,1,2,2)) { //8
-            return listOf(2,0,2,1,2,2)
+        if (isWinnerCombination(0, 0, 0, 1, 0, 2)) { //1
+            return listOf(0, 0, 0, 1, 0, 2)
+        } else if (isWinnerCombination(0, 0, 1, 0, 2, 0)) { //2
+            return listOf(0, 0, 1, 0, 2, 0)
+        } else if (isWinnerCombination(0, 0, 1, 1, 2, 2)) { //3
+            return listOf(0, 0, 1, 1, 2, 2)
+        } else if (isWinnerCombination(0, 1, 1, 1, 2, 1)) { //4
+            return listOf(0, 1, 1, 1, 2, 1)
+        } else if (isWinnerCombination(0, 2, 1, 2, 2, 2)) { //5
+            return listOf(0, 2, 1, 2, 2, 2)
+        } else if (isWinnerCombination(2, 0, 1, 1, 0, 2)) { //6
+            return listOf(2, 0, 1, 1, 0, 2)
+        } else if (isWinnerCombination(1, 0, 1, 1, 1, 2)) { //7
+            return listOf(1, 0, 1, 1, 1, 2)
+        } else if (isWinnerCombination(2, 0, 2, 1, 2, 2)) { //8
+            return listOf(2, 0, 2, 1, 2, 2)
         }
         return listOf()
     }
 
     override fun clearField() {
         field = FieldData.newClearField.cells
+    }
+
+    override fun checkEmptyOnes(): Boolean {
+        for (i in 0..2) {
+            for (j in 0..2) {
+                if (field[i][j].title == CellSign.EMPTY.title) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 }
