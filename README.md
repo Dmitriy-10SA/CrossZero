@@ -1,4 +1,4 @@
-<img src="https://github.com/user-attachments/assets/1a5d68c5-9816-418b-9dcf-617e41ea4ed1" width="200" />
+<img src="https://github.com/user-attachments/assets/dfe98256-4636-4f37-8b1a-6a89477c1bb1" width="200" />
 
 # **Tic Tac Toe game for android.**  
 *Игра крестики нолики для андроид.*
