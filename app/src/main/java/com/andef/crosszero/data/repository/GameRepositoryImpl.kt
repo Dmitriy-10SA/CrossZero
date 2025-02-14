@@ -1,11 +1,14 @@
 package com.andef.crosszero.data.repository
 
 import com.andef.crosszero.data.datasource.FieldData
+import com.andef.crosszero.di.ApplicationScope
 import com.andef.crosszero.domain.entities.CellSign
 import com.andef.crosszero.domain.entities.PlayerSign
 import com.andef.crosszero.domain.repository.GameRepository
+import javax.inject.Inject
 
-object GameRepositoryImpl : GameRepository {
+@ApplicationScope
+class GameRepositoryImpl @Inject constructor() : GameRepository {
     private var field = FieldData.newClearField.cells
 
     private fun getCellSignByPlayerSign(currentPlayerSign: PlayerSign): CellSign {
