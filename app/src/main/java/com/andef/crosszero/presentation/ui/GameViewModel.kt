@@ -8,13 +8,20 @@ import com.andef.crosszero.domain.entities.CellBackgroundColor
 import com.andef.crosszero.domain.entities.CellSign
 import com.andef.crosszero.domain.entities.Player
 import com.andef.crosszero.domain.entities.PlayerSign
-import com.andef.crosszero.domain.usecases.CheckEmptyOnes
-import com.andef.crosszero.domain.usecases.CheckWinner
-import com.andef.crosszero.domain.usecases.ClearField
-import com.andef.crosszero.domain.usecases.MakePutCell
+import com.andef.crosszero.domain.usecases.CheckEmptyOnesUseCase
+import com.andef.crosszero.domain.usecases.CheckWinnerUseCase
+import com.andef.crosszero.domain.usecases.ClearFieldUseCase
+import com.andef.crosszero.domain.usecases.MakePutCellUseCase
 import com.andef.crosszero.presentation.state.GameState
+import javax.inject.Inject
 
-class GameViewModel(application: Application): AndroidViewModel(application) {
+class GameViewModel @Inject constructor(
+    application: Application,
+    private val checkWinnerUseCase: CheckWinnerUseCase,
+    private val checkEmptyOnesUseCase: CheckEmptyOnesUseCase,
+    private val makePutCellUseCase: MakePutCellUseCase,
+    private val clearFieldUseCase: ClearFieldUseCase
+) : AndroidViewModel(application) {
     private val settings = getApplication<Application>()
         .getSharedPreferences(PREFS_FILE_SCORES, Context.MODE_PRIVATE)
 
@@ -54,7 +61,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     }
 
     private fun checkWinner(): List<Int> {
-        return CheckWinner.execute()
+        return checkWinnerUseCase.execute()
     }
 
     private fun changeCurrentPlayer() {
@@ -202,7 +209,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun putCell(row: Int, col: Int) {
-        if (MakePutCell.execute(row, col, gameState.currentPlayer.playerSign) &&
+        if (makePutCellUseCase.execute(row, col, gameState.currentPlayer.playerSign) &&
             !gameState.isGameOver
         ) {
             notifyCell(row, col, getCellSignByPlayerSign(gameState.currentPlayer.playerSign))
@@ -211,7 +218,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
                 notifyWinCells(winCells)
                 addScores()
                 endGame()
-            } else if (!CheckEmptyOnes.execute()) {
+            } else if (!checkEmptyOnesUseCase.execute()) {
                 notifyAllCells(false)
                 endGame()
             }
@@ -220,7 +227,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun newGame() {
-        ClearField.execute()
+        clearFieldUseCase.execute()
         notifyAllCells(true)
         gameState.currentPlayer = gameState.crossPlayer
         gameState.isGameOver = false

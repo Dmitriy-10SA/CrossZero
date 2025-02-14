@@ -3,31 +3,22 @@ package com.andef.crosszero.presentation.ui
 import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.andef.crosszero.R
+import com.andef.crosszero.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var buttonStartGame: Button
+    private val binding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        setContentView(binding.root)
 
-        buttonStartGame = findViewById<Button?>(R.id.buttonStartGame).apply {
-            setOnClickListener {
-                goToGameScreen()
-            }
-        }
+        binding.buttonStartGame.setOnClickListener { goToGameScreen() }
     }
 
     private fun goToGameScreen() {
@@ -42,6 +33,6 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         })
-        buttonStartGame.startAnimation(animation)
+        binding.buttonStartGame.startAnimation(animation)
     }
 }
