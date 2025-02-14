@@ -8,7 +8,8 @@
 ## **Stack (стек):**
 - Kotlin  
 - MVVM  
-- Clean Architecture  
+- Clean Architecture
+- Dagger 2
 - SharedPreferences  
 
 ---
