@@ -10,7 +10,6 @@
 - MVVM  
 - Clean Architecture
 - Dagger 2
-- SharedPreferences  
 
 ---
 
